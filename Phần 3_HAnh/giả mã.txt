@@ -1,0 +1,69 @@
+1. Hàm FindEmptyCell: quét qua bảng Sudoku để tìm ô đầu tiên chưa được điền số (đang mang giá trị 0)
+Input: mảng hai chiều grid[9][9]
+Output: Toạ độ (row, col) của ô trống đầu tiên tìm thấy, hoặc (NULL, NULL) nếu bảng đầy
+     int findEmptyCell(int grid[][]):
+    	//Duyet qua tung hang tu 0 den 8
+    	for row = 0 to row = 8 do
+        //Duyet qua tung cot tu 0 den 8
+           for col = 0 to col = 8 do
+            //Neu tim thay gia tri 0 (o trong)
+             if grid[row][col] == 0 then
+                return row, col
+                
+    //Neu duyet het bang ma khong thay o nao bang 0
+      return NULL, NULL
+
+2. Hàm IsSafe : kiểm tra xem việc đặt một con số vào một vị trí cụ thể có vi phạm quy tắc Sudoku hay không
+
+Bool isSafe(int grid[][], int row, int col, int num):
+    // 1. Kiem tra hang (Row Constraint)
+    for j = 0 to j = 8 do
+        if grid[row][j] == num then
+            return False
+
+    // 2. Kiem tra cot (Column Constraint)
+    for i = 0 to i = 8 do
+        if grid[i][col] == num then
+            return False
+
+    // 3. Kiem tra vung 3x3 (Box Constraint)
+    // Xac dinh goc tren ben trai cua vung 3x3 chua o(row, col)
+    startRow = row - (row mod 3)
+    startCol = col - (col mod 3)
+
+    for i = 0 to i = 2 do 
+        for j = 0 to j = 2 do
+            if grid[startRow + i][startCol + j] == num then
+                return False
+
+    // Neu khogn vi pham bat ky dieu kien nao
+    return True
+
+3. Hàm sovleSodoku
+bool solveSudoku(int grid[][]):
+    // 1. Tim vi tri o trong (row, col)
+    row, col = findEmptyCell(grid)
+
+    // 2. Base Case (Dieu kien dung)
+    // Neu khong con o trong nao, tat ca cac o duoc dien hop le
+    if row == NULL and col == NULL then
+        return True
+
+    // 3. Recursive Step (Buoc de quy)
+    // Thu cac gia tri kha thi tu 1 den 9 cho o trong vua tim duoc
+    for num = 1 to num = 9 do
+        // Kiem tra dieu kien rang buoc (Constraint Satisfaction)
+        if isSafe(grid, row, col, num) == True then
+            // Buoc thu (Pre-recursion): Gan tra tri vao CTDL
+            grid[row][col] = num
+
+            // Goi de quy de giai bai toan con tiếp theo
+            if solveSudoku(grid) == True then
+                return True
+
+            // Bước QUAY LUI (Backtrack): Khoi phuc trang thai cu cua grid
+            // Neu viec thu 'num' dan den ngo cut
+            grid[row][col] = 0
+
+    // 4. Tra ve False neu khong co gia tri nao tu 1-9 thoa man (Dead end)
+    return False
