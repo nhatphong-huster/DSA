@@ -31,6 +31,6 @@ PHẦN 5: KẾT LUẬN VÀ ĐÁNH GIÁ (2-3 trang)
 Hướng phát triển (ví dụ: tối ưu bằng thuật toán Dancing Links hoặc dùng GUI để tăng trải nghiệm).
 Đánh giá cá nhân: Mỗi thành viên tự ghi nhận mức độ hoàn thành công việc.
 
-
+Mọi người sử dụng fixed.py để làm các phần sau nhé. Mình đã sửa lại file code cho cả bài 
 
 
